@@ -6,7 +6,7 @@ from council_logic import run_council
 # 1. Configuration de la page
 st.set_page_config(page_title="LLM Council Local", layout="wide")
 
-# 2. Gestion du Thème (Bonus UI)
+# 2. Gestion du Thème
 if 'theme' not in st.session_state:
     st.session_state.theme = 'Dark'
 
@@ -30,10 +30,10 @@ def set_theme():
 
 # 3. Sidebar avec Health Check et Sélecteur de Thème
 with st.sidebar:
-    st.header("⚙️ Paramètres & Statut")
+    st.header("Paramètres & Statut")
 
     # Toggle Thème
-    st.session_state.theme = st.selectbox("🎨 Apparence", ["Dark", "Light"])
+    st.session_state.theme = st.selectbox("Apparence", ["Dark", "Light"])
     set_theme()
 
     st.markdown("---")
@@ -50,15 +50,15 @@ with st.sidebar:
     st.info("**Membres du Conseil :**\n- Llama 3.2 (1b)\n- Phi 4 Mini\n- Chairman: Llama 3.1 (8b)")
 
 # 4. Interface Principale
-st.title("🏛️ Conseil Local des LLM")
+st.title(" Conseil Local des LLM")
 st.markdown("*Système collaboratif multi-IA distribué*")
 
 query = st.text_input("Posez votre question au conseil :", placeholder="Ex: Quel est l'avenir de l'IA locale ?")
 
-if st.button("Lancer la délibération 🚀") and query:
+if st.button("Lancer la délibération") and query:
     start_time = time.time()
 
-    with st.status("🧠 Travail du conseil en cours...", expanded=True) as status:
+    with st.status("Travail du conseil en cours...", expanded=True) as status:
         st.write("Étape 1 : Récolte des opinions (Stage 1)...")
         responses, reviews, final_ans = run_council(query)
 
@@ -69,7 +69,7 @@ if st.button("Lancer la délibération 🚀") and query:
         status.update(label="Délibération terminée !", state="complete")
 
     # 5. Affichage par onglets (Requirement)
-    tab1, tab2, tab3 = st.tabs(["💡 Opinions Initiales", "⚖️ Critiques", "🏆 Synthèse Finale"])
+    tab1, tab2, tab3 = st.tabs(["Opinions Initiales", "Critiques", "Synthèse Finale"])
 
     with tab1:
         st.subheader("Réponses brutes des conseillers")
@@ -87,16 +87,16 @@ if st.button("Lancer la délibération 🚀") and query:
                 model_name = parts[0].strip()
                 content = parts[1].strip() if len(parts) > 1 else ""
 
-                # NETTOYAGE : Enlever les "1b:" ou "mini:" qui traînent au début du texte
+
                 cleaned_content = content.lstrip("1b:").lstrip("mini:").strip()
 
-                with st.expander(f"🔍 Analyse faite par {model_name}"):
+                with st.expander(f"Analyse faite par {model_name}"):
                     st.write(cleaned_content)
 
     with tab3:
-        st.header("🏁 Résultat Final du Président")
+        st.header(" Résultat Final du Président")
         st.success(final_ans)
 
         # Statistiques de performance (Bonus)
         duration = round(time.time() - start_time, 2)
-        st.markdown(f"**⏱️ Temps de traitement :** `{duration}s` | **📍 Mode :** `Local Inference`")
+        st.markdown(f"**Temps de traitement :** `{duration}s` | ** Mode :** `Local Inference`")
